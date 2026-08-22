@@ -1,0 +1,1 @@
+<?php echo "Hello Dad, the server is running!"; ?>

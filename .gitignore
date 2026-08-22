@@ -1,0 +1,11 @@
+# Ignore React node_modules and build output
+client/node_modules
+client/build
+client/.env.local
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore local database or server configs with sensitive info
+api/config/db_passwords.php
