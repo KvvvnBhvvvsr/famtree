@@ -1,7 +1,7 @@
 <?php
 	echo "Hello, World!<br>";
 	echo "This is where I will generate some dummy famtree data for testing.<br>";
-	echo "092326: added insertDummy and createRel functions";
+	echo "092326: added insertDummy and createRel functions.<br>";
 ?>
 
 <br><br>
@@ -26,25 +26,28 @@
 		// TODO: Check for and Prevent duplicate rows
 
 		global $pdo;
-		$dummyName = $dummyName . $dummyID;
-		$dummyGender = 'f';
-		echo "Inserting Dummy: $dummyName, $dummyGender. \n";
-		$insertDummySQL = 'INSERT INTO ids (name, gender) values (?, ?)';
+		// $dummyName = $dummyName . $dummyID;
+		$gender = rand(0, 1);
+		if ($gender % 2 == 0) {
+			$dummyGender = 'f';
+		}
+		echo "Inserting Dummy: $dummyName, $dummyGender. <br>";
+		$insertDummySQL = 'INSERT INTO ids (id, name, gender) values (?, ?, ?)';
 		$stmt = $pdo->prepare($insertDummySQL);
-		$stmt->execute([$dummyName, $dummyGender]);
-		echo "Dummy ID added: $dummyID. \n";
+		$stmt->execute([$dummyID, $dummyName, $dummyGender]);
+		echo "Dummy ID added: $dummyID. <br>";
 	}
 
 	function createRel($id1, $id2, $type) {
 		// TODO: Check for and Prevent duplicate rows
 
 		global $pdo;
-		echo "Creating Relationship between $id1 & $id2: $type. \n";
+		echo "Creating Relationship between $id1 & $id2: $type. <br>";
 		$createRelSQL = 'INSERT INTO rel (id1, id2, type) values (?, ?, ?)';
 		$stmt = $pdo->prepare($createRelSQL);
 		$stmt->execute([$id1, $id2, $type]);
 
-		echo "Relationship added: $id1 is $id2's $type. \n";
+		echo "Relationship added: $id1 is $id2's $type. <br>";
 	}
 
 	// insertDummy(4);
@@ -52,7 +55,31 @@
 	// createRel("100002", "100005", 'spouse');
 
 	function genDummyTree() {
+		/*
+		I think I will skip the random tree for now. I will manually create an n-generation tree with some 20 or so members, and that should be good enough to begin writing and testing specific functions related to tree visualization and expansion.
+
+		I will only need to run this function once...perhaps.
+		*/
+
+		/* Planning out a tree structure
+		marriage notation: (M!-F!)
+
+		a-b -> (cde); p-w -> (f); q-x -> (h)
+		c-f -> (ijk), g-d ->(lmn), h-e -> (oz); r-d -> (y)
+		i-s, j-t, k; l-u, m, n; o-v
+						
+		*/
+
+	}
+
+	genDummyTree();	
+
+	function genRanDummyTree() {
 		global $pdo;
+		/*
+		Suppose I want a function that creates an entire family unit. What's the way that would occur? Thinking from user perspective.
+		User inputs names, not ids. I have to retrieve ids for each name. If names aren't in 'ids', I must create name rows and save their ids. If names are in 'ids', but they are not connected in 'rels', I must create relationship rows.
+		*/
 		/*
 		What does it take to procedurally generate a random tree structure?
 		I need to define bounds. How many levels, for one. Max num of children per couple.
@@ -63,13 +90,5 @@
 		The biggest problem to generating top-down is that spouses mustn't share ancestors. Simplistically, a spouse could be presumed to be the root node of its own tree; this assumes that their children are being viewed from the perspective of the other spouse's family.
 		*/
 	}
-
-
-
-	/*
-	Suppose I want a function that creates an entire family unit. What's the way that would occur? Thinking from user perspective.
-	User inputs names, not ids. I have to retrieve ids for each name. If names aren't in 'ids', I must create name rows and save their ids. If names are in 'ids', but they are not connected in 'rels', I must create relationship rows.
-	*/
-
 
 ?>
