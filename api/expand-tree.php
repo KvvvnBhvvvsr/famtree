@@ -1,7 +1,11 @@
 <?php 
 	echo "Hello World<br>";
 	echo "I'm still a fool<br>";
-	echo "Today I will try to build some basic functions to expand a famtree from a given starting node/person. <br><br>"
+	echo "Today I will try to design how the tree expansion is going to work.<br>";
+	echo "Tomorrow I will begin learning React for the frontend.<br>";
+	echo "Maybe I'll do that now...<br>";
+	echo "<br><br>";
+
 ?>
 
 <?php
@@ -68,7 +72,7 @@
 		$stmt = $pdo->prepare($getParentsSQL);
 		$stmt->execute([$childid, "parent"]);
 		$result = $stmt->fetchAll(PDO::FETCH_COLUMN);
-		return $result;
+		return $result; 
 	}
 
 	function getChildren($parentid, $spouseid = -1) {
